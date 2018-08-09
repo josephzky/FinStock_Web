@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.css">
+          <!-- Angular Material requires Angular.js Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+        <!-- Angular Material Library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://code.highcharts.com/stock/highstock.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+        <script src ="https://code.highcharts.com/modules/exporting.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Optional theme -->
+<!--        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">-->
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--        toggle Bootstrap-->
+       
+    <style>
+/*        body {}*/
+        .bkgClass {
+            background-image:url(http://cs-server.usc.edu:45678/hw/hw8/images/background.png);
+            height: 150%
+        }
+        
+        #price { border: 2px solid #dfdfdf; margin-left:auto; margin-right:auto}
+        
+        .panel1 {
+/*                  margin-top: 10px;*/
+                  margin-left: 5%;
+                  margin-right: 5%;
+                  border: 1px solid transparent;
+                  border-radius: 6px;
+                }
+                .panel-body {
+                  padding: 10px;
+                }
+        
+        .newsPanel {
+                    background-color: #ebebeb;
+                    }
+
+        .line { margin-top: -8px; 
+                margin-left: 5%; 
+                margin-right: 5%; 
+                margin-bottom: 8px;
+                height:1px; 
+                border-top:1px solid #fff;   
+              }
+        
+        .searchTitle {
+                        display: block;
+                        position:relative;
+                        text-align: center;
+                        font-weight: bold;
+                        font-size: 15;
+            
+                     }
+        
+        .formLable {
+                        display: inline;
+                        font-size: 12px;
+                        font-weight: bold;
+                   }
+        .form-group {width: 50%; margin-left: 45px}
+        .autoRefresh {float: right}
+        .stockTitle {font-weight: bold; position: relative; left: 45%}
+        .newsTitle { font-size: 15px; color: #478cc8}
+        .newsAuthorTime {font-weight: bold; font-size: 12px}
+        
+        .nav-tabs {font-size: 14px}
+        
+        .percentUp { color: limegreen;}
+        
+        .percentDown { color: red;}
+        
+        .arrowUp {width: 15px; height: auto;}
+        .arrowDown {width: 15px; height: auto;}
+        
+        .fbImg {width: 16px; height: auto;}
+        
+        .starCol {
+            color: gold
+        }
+
+        .md-icon {display: none}
+        .md-padding {padding: 0px;}
+        .md-autocomplete.md-autocomplete-wrap {display: none; height: none;}
+        .md-content.md-default-theme {padding: 0px; background-color: white;}
+        md-progress-linear {display: none;}
+        
+        #autoSearch {
+            display: inline;
+            width: 100%;
+            height: 30px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.428571429;
+            color: #555;
+            vertical-align: middle;
+            background-color: #fff;
+            background-image: none;       
+            border: 1px solid #ccc;
+            border-radius: 4px;     
+        }
+        #autoSearch:focus {
+            border-color:#66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+        }
+         
+        #autoSearch.invalid {
+            border: 1px solid #c41139;
+            box-shadow:0px 0px 4px 0.5px #afafaf;
+        }
+        
+        #searchButton {
+            pointer-events: all;
+        }
+        
+        #toStoButton {
+            pointer-events: all;
+        }
+        
+        #starButton {
+            pointer-events: all;
+        }
+
+        #fbButton {
+            pointer-events: all;
+        }
+        
+        .disabledBtn.disabled:hover {
+            cursor: not-allowed;
+            background: #83afd4;
+        }
+
+        #favPanelBody {
+            transition: all linear 0.3s;
+        }
+        
+        #favPanelBody.ng-show {
+            margin-left: 100%; 
+            margin-right: 100%
+        }
+
+        #favPanelBody.ng-hide {
+          transition: all linear 0s;
+          margin-left: 100%;
+          margin-right: -100%
+        }
+        
+        #stoPanelBody {
+            transition: all linear 0.3s;
+        }
+        
+        #stoPanelBody.ng-show {
+            margin-left: 100%;
+            margin-right: 100%
+        }
+
+        #stoPanelBody.ng-hide {
+          transition: all linear 0s;
+          margin-left: -100%;
+          margin-right: 100%
+        }
+        
+        .symbolBlue {
+            color: #3c3cfc
+        }
+        .symbolBlue:hover {
+            color: #0000c1;
+            text-decoration: underline;
+        } 
+        
+        .noWords {}
+        .tableOverFlow {
+        }
+        .nbsp {display: none}
+        @media only screen and (max-width: 768px) {
+            .noWords {display: none !important}
+            
+            .tableOverFlow {
+                overflow-x:scroll;
+                width: auto;
+                padding: 0;
+            }
+            .nbsp {display: block;}
+            
+            .stockTitle {font-weight: bold; position: relative; left: 30%}
+        }
+         
+/*
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+            -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;         
+*/
+        
+    </style>
+
+    </head>
+
+    <body>
+    <div class="bkgClass">  
+        <div style="height: 15px">&nbsp;</div>
+        <div  ng-app="MyApp" ng-controller="MyCtrl as ctrl">
+            <!--        SEARCH BOX         -->
+            <div id="searchPanel" class="panel panel1">
+              <div class="panel-body">
+                    <br/>
+                    <h class="searchTitle" id="searchTitle"> Stock Market Search</h>
+                  <div class="nbsp">&nbsp;</div>
+                    <form id="searchForm" class="form-inline">
+                        <span class="formLable col-xs-12 col-md-3"><span>Enter Stock Ticker Symbol:</span><span style="color: red">*</span></span>
+                        <div class="nbsp">&nbsp;</div>
+                        <span class="col-xs-12 col-md-6">
+                        <div class="autocompletedemoBasicUsage">
+                                <md-content class="md-padding">
+                                    <md-autocomplete 
+                                       md-input-id="autoSearch"
+                                       ng-blur="ctrl.checkKeyword(ctrl.searchText)"
+                                       ng-keyup="ctrl.checkKeyword(ctrl.searchText)"
+                                       md-selected-item="ctrl.selectedItem" 
+                                       md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" 
+                                       md-search-text="ctrl.searchText" 
+                                       md-items="item in ctrl.querySearch(ctrl.searchText)" 
+                                       md-item-text="item.value" 
+                                       md-min-length="0" 
+                                       placeholder="e.g. AAPL"
+                                       md-clear-button="false"
+                                       md-selected-item-change="ctrl.selectedItemChange"
+                                       ng-trim="false" >      
+                                            <md-item-template>
+                                                <span md-highlight-text="ctrl.searchText" 
+                                                      md-highlight-flags="^i">
+                                                        {{item.display}}
+                                                </span>
+                                            </md-item-template>  
+                                    </md-autocomplete>
+                                </md-content>
+                        </div>
+                        <div id="searchTip"></div>
+                            
+                        </span >
+<!--                          <div class="col-xs-12">-->
+                        <span class="col-xs-12 col-md-3">
+                            <button type="button" id='searchButton' class="btn btn-primary btn-sm disabledBtn" ng-click="showStockPanel(ctrl.searchText); stoPage()" disabled="disabled" >
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Get Quote
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="toggleToFav()" onclick="clearSearch()" >
+                              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Clear
+                            </button>
+<!--                          </div>-->
+                        </span>
+                        </form>
+              </div>
+            </div>
+
+            <div class="line"></div>
+
+            <div id="panel2" class="panel panel1">
+                
+            <!--        FAV Panel         -->
+                <div id="favPanelBody" class="panel-body" ng-show='favshow'>  
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="panel-title">Favorite List</span>
+                            <span class="autoRefresh">
+                                <span class="noWords">Automatic Refresh:</span>
+                                    <input id="autoCheck" type="checkbox" data-toggle="toggle" data-size="small">
+                                    <button type="button" class="btn btn-default btn-sm" ng-click="refresh()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>         
+                                    <button id="toStoButton" type="button" class="btn btn-default btn-sm disabledButton" disabled="disabled" ng-click="toggleToSto()"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true" ></span></button>
+                                
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                
+                                <span class="col-xs-12 col-md-1"><Strong>Sort by </Strong></span>
+                                    <span>
+                                        <select ng-model="sortby" class="col-xs-12 col-md-2">
+                                          <option value="">Default</option>
+                                          <option value="symbol">Symbol</option>
+                                          <option value="stockPrice">Price</option>
+                                          <option value="priceChange">Change</option>
+                                          <option value="changePercent">Change Percent</option>
+                                          <option value="volume">Volume</option>
+                                        </select>
+                                    </span>
+                                
+                                <span class="col-xs-12 col-md-1"><strong>Order</strong></span>
+                                    <span>
+                                    <select ng-model="order" ng-disabled="sortby==''" class="col-xs-12 col-md-2">
+                                      <option value="">Ascending</option>
+                                      <option value="-">Descending</option>
+                                    </select>
+                                    </span>
+                            </div>
+                            <div style="font-size: 5px">&nbsp;</div>
+                            <div class="tableOverFlow">
+                                <table id="favTable" class="table table-striped col-xs-12" style="min-width: 600px;">
+                                    <tbody>
+                                        <tr>
+                                            <th>Syboml</th>
+                                            <th>Stock Price</th>
+                                            <th>Change (Change Percent)</th>
+                                            <th>Volume</th>
+                                            <th></th>
+                                        </tr>
+                                        <tr ng-repeat="x in favContent | orderBy: order+sortby">
+                                            <td>
+                                                <div class="btn-group btn-group-xs symbolBlue" role="group" aria-label="" ng-click='showStockPanel(x.symbol); stoPage()'>{{x.symbol}}</div>
+                                            </td>
+                                            <td>{{x.stockPriceComma}}</td>
+                                            <td id="favListCng" ng-class=x.color>{{x.priceChange+'('+x.changePercent+'%)'}}<img ng-class =x.img ng-src={{x.imgsrc}}></td>
+                                            <td>{{x.volumeComma}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="favDelete(x.symbol)"></span></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>                  
+                            </div>    
+                      </div>
+                    </div>
+                </div>
+                
+            <!--   STOCK Panel    -->
+                <div id="stoPanelBody" class="panel-body" ng-show='stoshow'>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>
+                                <button type="button" class="btn btn-default btn-sm" ng-click="toggleToFav()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>
+                            </span>
+                            <h class="stockTitle">Stock Details</h>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <ul class="nav nav-pills" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#currentStock" aria-controls="currentStock" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-time"></span><span class="noWords">Current </span>Stock</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#highStock" aria-controls="highStock" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span><span class="noWords">Historical </span>Charts</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#newsPanel" aria-controls="newsPanel" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-link"></span>News<span class="noWords"> Feeds</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr>
+                            <div class="tab-content fade in active">
+                                <div role="tabpanel" class="tab-pane in active fade" id="currentStock">                          
+                                     <span class="col-xs-12 col-md-6">                       
+                                                <br/>
+                                                    <form>
+                                                        <span style="float: left"><Strong>Stock Details</Strong></span>
+                                                        <span style="float: right">
+                                                            <button id="starButton" type="button" class="btn btn-default btn-sm disabledButton" ng-click="starMark()" dis>{{star}}</button> 
+                                                            <button id="fbButton" type="button" class="btn btn-default btn-sm disabledButton" ng-click="fbPost()" disabled='disabled'><img class="fbImg" src="http://cs-server.usc.edu:45678/hw/hw8/images/facebook.png"/></button>
+                                                        </span>
+                                                    </form>
+                                                <br/><br/><br/>
+                                                <div id="detailsTable"></div>                                                     
+                                    </span>
+                                       <span class="col-xs-12 col-md-6">         
+                                          
+                                                <div>
+                                                    <ul class="nav nav-tabs" role="tablist">
+                                                        <li role="presentation" class="active"><a href="#price" aria-controls="price" role="tab" data-toggle="tab" ng-click="fbButtonCheck('price')">Price</a></li>
+                                                        <li role="presentation"><a href="#sma" aria-controls="sma" role="tab" data-toggle="tab" ng-click="fbButtonCheck('sma')">SMA</a></li>
+                                                        <li role="presentation"><a href="#ema" aria-controls="ema" role="tab" data-toggle="tab" ng-click="fbButtonCheck('ema')">EMA</a></li>
+                                                        <li role="presentation" value='false'><a href="#stoch" aria-controls="stoch" role="tab" data-toggle="tab" ng-click="fbButtonCheck('stoch')">STOCH</a></li>
+                                                        <li role="presentation" value='false'><a href="#rsi" aria-controls="rsi" role="tab" data-toggle="tab" ng-click="fbButtonCheck('rsi')">RSI</a></li>
+                                                        <li role="presentation"><a href="#adx" aria-controls="adx" role="tab" data-toggle="tab" ng-click="fbButtonCheck('adx')">ADX</a></li>
+                                                        <li role="presentation"><a href="#cci" aria-controls="cci" role="tab" data-toggle="tab" ng-click="fbButtonCheck('cci')">CCI</a></li>
+                                                        <li role="presentation"><a href="#bbands" aria-controls="bbands" role="tab" data-toggle="tab" ng-click="fbButtonCheck('bbands')">BBANDS</a></li>
+                                                        <li role="presentation"><a href="#macd" aria-controls="macd" role="tab" data-toggle="tab" ng-click="fbButtonCheck('macd')">MACD</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="tab-content fade in active">
+                                                    <div  role="tabpanel" class="tab-pane in active fade" style="border: 0" id="price">none</div>
+                                                    <div  role="tabpanel" class="tab-pane fade" id="sma"></div>                     
+                                                    <div  role="tabpanel" class="tab-pane fade" id="ema"></div>
+                                                    <div  role="tabpanel" class="tab-pane fade" id="stoch"></div>
+                                                    <div  role="tabpanel" class="tab-pane fade" id="rsi"></div>
+                                                    <div  role="tabpanel" class="tab-pane fade" id="adx"></div>
+                                                    <div  role="tabpanel" class="tab-pane fade" id="cci"></div>
+                                                    <div  role="tabpanel" class="tab-pane fade" id="bbands"></div>
+                                                    <div  role="tabpanel" class="tab-pane fade" id="macd"></div>
+                                                </div> 
+                                    </span>    
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="highStock">
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="newsPanel">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        
+<!--    Global Variables       -->
+        <script>
+            var tagList = [['price', 'sma', 'ema', 'stoch', 'rsi', 'adx', 'cci', 'bbands', 'macd'],
+                           [1, 0, 0, 0, 0, 0, 0, 0, 0]];
+            var HCharts_config = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+            var currSearchT;
+            var favList = [];
+            var autoJSON;
+            var detailsJSON;
+            var priceJSON;
+            var smaJSON;
+            var emaJSON;
+            var highStockJSON;
+            var newsJSON;   
+            var autoR;
+        </script>
+            
+<!--      Auto Complete     -->        
+        <script>
+            (function () {
+              'use strict';
+              angular
+                  .module('MyApp',['ngMaterial', 'ngAnimate'])
+                  .controller('MyCtrl', function ($scope){
+                  
+                var self = this;
+                self.querySearch   = querySearch;
+                self.checkKeyword = checkKeyword;
+                  
+                $scope.favContent = [];
+                $scope.sortby = '';
+                $scope.order = ''; 
+
+                for (var iter=0; iter<localStorage.length; iter++) {
+                    favList.push(localStorage.key(iter));
+                    $scope.favContent.push(JSON.parse(localStorage.getItem(localStorage.key(iter))));
+                }  
+                  
+                $scope.timer = 0;
+                function querySearch(query) {
+                    var deferred = $.Deferred();
+                        $.ajax({
+                                    async : true,
+                                    url : '/',
+                                    type : 'GET',
+                                    dataType : 'JSON', 
+                                    data : {'symbol': query, 'todo':'auto'},
+                                    success: function(autoResponse, status, xhr){
+                                            autoJSON = autoResponse["autoComp"];
+                                            deferred.resolve(autoJSON);
+                                            $scope.timer++;
+                                    },
+                                        error:function (XMLHttpRequest, textStatus, errorThrown) {   
+                                        deferred.reject('ERROR');
+
+                                    }
+                                });
+                        return deferred.promise();
+                    }
+
+                $scope.showStockPanel = function (company) {
+                    getAllData(company);
+                } 
+           
+               function checkKeyword(keyword) {
+                      if (keyword == undefined || keyword.trim() == "") {
+                        document.getElementById('searchTip').innerHTML = 'Please enter a stock ticker symbol.';
+                        document.getElementById('searchButton').setAttribute('disabled','disabled');
+                        $('#autoSearch').addClass('invalid');
+
+                      } else {
+                        document.getElementById('searchTip').innerHTML = '';
+                        document.getElementById('searchButton').removeAttribute("disabled");
+                          $('#autoSearch').removeClass('invalid');
+                      }  
+               }
+                  
+                $scope.favshow = true;
+                $scope.stoshow = false; 
+
+                $scope.toggleToSto = function() {
+                    $scope.favshow = !$scope.favshow;
+                    $scope.stoshow = !$scope.stoshow;
+                    if (favList.includes(currSearchT.toUpperCase())) {
+                        document.getElementById("starButton").innerHTML = '<span class="glyphicon glyphicon-star starCol" aria-hidden="true"></span>';
+                    } else {
+                        document.getElementById("starButton").innerHTML = '<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>';
+                    }       
+                }
+                  
+                $scope.toggleToFav = function() {
+                    if ($scope.favshow == false) {
+                    $scope.favshow = !$scope.favshow;
+                    $scope.stoshow = !$scope.stoshow; 
+                    }
+                } 
+                
+                $scope.stoPage = function() {
+                    if (!$scope.stoshow) {
+                        $scope.favshow = !$scope.favshow;
+                        $scope.stoshow = !$scope.stoshow;
+                    }
+                    if (favList.includes(currSearchT)) {
+                        document.getElementById("starButton").innerHTML = '<span class="glyphicon glyphicon-star starCol" aria-hidden="true"></span>';
+                    } else {
+                        document.getElementById("starButton").innerHTML = '<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>';
+                    }  
+                }     
+                
+                $scope.refresh = function() {
+                    for (var index=0; index<$scope.favContent.length; index++) {
+                        $scope.updateData(index);
+                    }
+                }
+                
+                $scope.updateData = function(index) {
+                    var i = index;
+                        $.ajax({
+                            async : true,
+                            url : '／',
+                            type : 'GET',
+                            dataType : 'JSON', 
+                            data : {'symbol': $scope.favContent[i]['symbol'], 'todo':'details'},
+                            success: function(detailsResponse, status, xhr){
+                                $scope.favContent[i]['stockPrice'] = parseFloat(detailsResponse['lastPrice']);
+                                $scope.favContent[i]['stockPriceComma'] = (detailsResponse['lastPrice']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                $scope.favContent[i]['priceChange'] = parseFloat(detailsResponse['priceChange']);
+                                $scope.favContent[i]['changePercent'] = parseFloat(detailsResponse['changePercent']);
+                                $scope.favContent[i]['volume'] = detailsResponse['volume'];
+                                $scope.favContent[i]['volumeComma'] = (detailsResponse['volume']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                if ($scope.favContent[i]['priceChange']>0) {
+                                    $scope.favContent[i]['color'] = 'percentUp';
+                                    $scope.favContent[i]['img'] = 'arrowUp';
+                                    $scope.favContent[i]['imgsrc'] = 'http://cs-server.usc.edu:45678/hw/hw8/images/Up.png';
+                                } else if ($scope.favContent[i]['priceChange']<0) {
+                                    $scope.favContent[i]['color'] = 'percentDown';
+                                    $scope.favContent[i]['img'] = 'arrowDown';
+                                    $scope.favContent[i]['imgsrc'] = 'http://cs-server.usc.edu:45678/hw/hw8/images/Down.png';
+                                } else {
+                                    $scope.favContent[i]['color'] = '';
+                                    $scope.favContent[i]['img'] = '';
+                                    $scope.favContent[i]['imgsrc'] = '';
+                                }
+                                
+                                localStorage.setItem($scope.favContent[i]['symbol'], JSON.stringify(($scope.favContent[i])));
+                                $scope.$applyAsync();
+                            },
+                            error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                                alert("ERROR");
+                            }
+                        })};
+                
+                
+                $('#autoCheck').change(function() {
+                    if (document.getElementById('autoCheck').checked) {
+                        autoR = setInterval($scope.refresh, 5000);
+                    } else {
+                        clearInterval(autoR);
+                    }
+                }) 
+                
+                $scope.starMark = function() {
+                    if (favList.includes(currSearchT)) {
+                        document.getElementById("starButton").innerHTML = '<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>';
+                        favList.splice(favList.indexOf(currSearchT), 1);
+                        for (var i=0; i<$scope.favContent.length; i++){
+                            if ($scope.favContent[i]['symbol']==currSearchT) {
+                                $scope.favContent.splice(i, 1);
+                                break;
+                            }
+                        }
+                        localStorage.removeItem(currSearchT);
+                    } else {
+                        document.getElementById("starButton").innerHTML = '<span class="glyphicon glyphicon-star starCol" aria-hidden="true"></span>';
+                        favList.push(currSearchT);
+                        var changeCol='';
+                        var img='';
+                        var imgsrc='';
+                        var volumeComma = '';
+                        var stockPriceComma = '';
+                        if (detailsJSON['priceChange']>0) {
+                            changeCol='percentUp';
+                            img="arrowUp";
+                            imgsrc="http://cs-server.usc.edu:45678/hw/hw8/images/Up.png";
+                        } else if (detailsJSON['priceChange']<0) {
+                            changeCol='percentDown'; 
+                            img="arrowDown";
+                            imgsrc="http://cs-server.usc.edu:45678/hw/hw8/images/Down.png";
+                        }
+                        $scope.favContent.push({'symbol': detailsJSON['stockTickerSymbol'].toUpperCase(), 'stockPrice': parseFloat(detailsJSON['lastPrice']), 'stockPriceComma': (detailsJSON['lastPrice']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ","), 'priceChange':parseFloat(detailsJSON['priceChange']), 'changePercent': parseFloat(detailsJSON['changePercent']), 'volume': detailsJSON['volume'], 'volumeComma': (detailsJSON['volume']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ","), 'color': changeCol, 'img': img, 'imgsrc': imgsrc});
+                        
+                        localStorage.setItem(favList[favList.length-1], JSON.stringify(($scope.favContent[$scope.favContent.length-1])));
+                    }
+                }
+                
+                $scope.favDelete = function(symbol) {
+                    for (var i=0; i<$scope.favContent.length; i++){
+                        favList.splice(favList.indexOf(symbol), 1);
+                        if ($scope.favContent[i]['symbol']==symbol) {
+                            $scope.favContent.splice(i, 1);
+                            localStorage.removeItem(symbol)
+                            break;
+                        }
+                    }
+                }
+                
+                $scope.fbPost = function() {
+                    fbFeed();
+                }
+                
+                $scope.fbButtonCheck =function(tagId) {
+                    for (var i=0; i<tagList[0].length; i++){
+                        if (tagId != tagList[0][i]) {
+                            tagList[1][i] = 0;
+                        } else {
+                            tagList[1][i] = 1;
+                        }
+                    }
+                    if (document.getElementById(tagId).innerHTML=='<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>') {
+                        document.getElementById('fbButton').setAttribute('disabled', 'disabled');
+                    } else if (document.getElementById(tagId).innerHTML!='<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>'){
+                        document.getElementById('fbButton').removeAttribute('disabled');
+                    }
+                }
+  
+              }
+            )})();               
+        </script>
+        
+          
+<!--      Drawing asistance functions-->
+        <script>
+            function iniAllWait() {
+                document.getElementById('detailsTable').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('price').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('sma').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('ema').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('rsi').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('adx').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('cci').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('stoch').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('bbands').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('macd').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>';
+                document.getElementById('highStock').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>'; 
+                document.getElementById('newsPanel').innerHTML = 
+                    '<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div></div>'; 
+            }
+            
+            function detailsFill() {
+                document.getElementById('starButton').removeAttribute('disabled');
+                document.getElementById('detailsTable').innerHTML = 
+                    '<table class="table table-striped"><tbody><tr><th>Stock Ticker Symbol</th><td id="stoTicSym"></td></tr><tr><th>Last Price</th><td id="lastPri"></td></tr><tr><th>Change (Change Percent)</th><td id="chngPercent"></td></tr><tr><th>Timestamp</th><td id="timeStamp"></td></tr><tr><th>Open</th><td id="open"></td></tr><tr><th>Previous Close</th><td id="prevClose"></td></tr><tr><th>Day\'s Range</th><td id="daysRange"></td></tr><tr><th>Volume</th><td id="vol"></td></tr></tbody></table>';
+                document.getElementById("stoTicSym").innerHTML = detailsJSON['stockTickerSymbol'];
+                document.getElementById("lastPri").innerHTML = (detailsJSON['lastPrice']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                if (detailsJSON['colorFlag'] == '1') {
+                    document.getElementById("chngPercent").innerHTML = '<span class="percentUp">' + detailsJSON['priceChange'] + "(" + detailsJSON['changePercent'] + "%)" + ' <img class ="arrowUp" src="http://cs-server.usc.edu:45678/hw/hw8/images/Up.png"></span>';
+                } 
+                else if (detailsJSON['colorFlag'] == '0') {
+                document.getElementById("chngPercent").innerHTML = '<span class="percentDown">' + detailsJSON['priceChange'] + "(" + detailsJSON['changePercent'] + "%)" + ' <img class ="arrowDown" src="http://cs-server.usc.edu:45678/hw/hw8/images/Down.png"></span>';
+                }
+                document.getElementById("timeStamp").innerHTML = detailsJSON['timeStamps'];
+                document.getElementById("open").innerHTML = (detailsJSON['open']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById("prevClose").innerHTML = (detailsJSON['lastPrice']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById("daysRange").innerHTML = (detailsJSON['range1']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " - " + (detailsJSON['range2']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById("vol").innerHTML = (detailsJSON['volume']+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            function showGraphPrice() {
+                HCharts_config[0] = {
+                        chart: {    type: 'area',
+                                    zoomType: 'x',
+                                borderWidth:0
+                                },
+                        title: {    text: priceJSON['title']},
+                        xAxis: {    categories: priceJSON['timeArr'],
+                                    tickInterval: 5,
+                                    labels: {style: { fontSize:'8px'}}
+                                },
+                        subtitle: { useHTML: true,
+                                    text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                    },
+                        yAxis: [
+                                    {
+                                        title: {    text: 'Stock Price',
+                                                    style: {fontSize: '10px'}
+                                                },
+                                        tickAmount:8,
+                                        labels: {style: {fontSize:'8px'}}   
+                                    },
+                                    { 
+                                        opposite: true,
+                                        title: { text: 'Volume',
+                                                },                  
+                                        labels: {style: {fontSize:'8px'}}   
+                                    }
+                               ],
+                        legend: {
+                                    itemStyle: { fontSize: '10px'}
+                                },
+                        tooltip:{valueDecimals: 2},
+                        series: [
+                                    {   name: priceJSON['symbol'],
+                                        data: priceJSON['priceArr'],
+                                        marker: {enabled: false},
+                                        color: '#1127f8',
+                                        fillOpacity: 0.3,
+                                        lineWidth: 2,
+                                        tooltip:{valueDecimals: 2}
+                                    },
+                                    {   name: priceJSON['symbol'] + ' Volume',
+                                        type: 'column',
+                                        yAxis: 1,
+                                        data: priceJSON['volumeArr'],
+                                        color: '#e82319',
+                                        borderWidth: 0.2,
+                                        borderColor: 'black',
+                                        lineWidth:1,
+                                        tooltip:{valueDecimals: 0}
+                                    }
+                                ]
+                    };
+                Highcharts.chart('price', HCharts_config[0]); 
+             }
+            
+            function showGraphSMA() {
+                HCharts_config[1] = {
+                    chart: {   
+                                zoomType: 'x'
+                            },
+                    title: {text: smaJSON['SMAindTitle']},
+                    subtitle: { useHTML: true,
+                                text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                },
+                    xAxis: {    categories: smaJSON['timeArr'],
+                                tickInterval: 5,
+                                labels: {style: { fontSize:'8px'}}
+                            },
+                    tooltip:{valueDecimals: 2},
+                    yAxis: {title: {text: 'SMA'}},
+                    legend: {itemStyle: { fontSize: '10px'}},
+                    series: [{  name: smaJSON['Symbol'],
+                                data: smaJSON['SMAvalue']
+                            }]
+                };
+                Highcharts.chart('sma', HCharts_config[1]);
+            }
+            
+            function showGraphEMA() {
+                HCharts_config[2] = {
+                    chart: {   
+                                zoomType: 'x',
+                            },
+                    title: {text: emaJSON['EMAindTitle']},
+                    subtitle: { useHTML: true,
+                                text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                },
+                    xAxis: {    categories: emaJSON['timeArr'],
+                                tickInterval: 5,
+                                labels: {style: { fontSize:'8px'}}
+                            },
+                    tooltip:{valueDecimals: 2},
+                    yAxis: {title: {text: 'MEA'}},
+                    legend: {itemStyle: { fontSize: '10px'}},
+                    series: [{  name: emaJSON['Symbol'],
+                                data: emaJSON['EMAvalue'],
+                            }]
+                };
+                Highcharts.chart('ema', HCharts_config[2]);
+            }
+
+            function showGraphRSI() {
+                HCharts_config[4] = {
+                    chart: {  
+                                zoomType: 'x',
+                            },
+                    title: {text: rsiJSON['RSIindTitle']},
+                    subtitle: { useHTML: true,
+                                text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                },
+                    xAxis: {    categories: rsiJSON['timeArr'],
+                                tickInterval: 5,
+                                labels: {style: { fontSize:'8px'}}
+                            },
+                    tooltip:{valueDecimals: 2},
+                    yAxis: {title: {text: 'RSI'}},
+                    legend: {itemStyle: { fontSize: '10px'}},
+                    series: [{  name: rsiJSON['Symbol'],
+                                data: rsiJSON['RSIvalue']
+                            }]
+                }; 
+                Highcharts.chart('rsi', HCharts_config[3]);
+            }
+            
+            function showGraphADX() {
+                HCharts_config[5] = {
+                    chart: {   
+                                zoomType: 'x',
+                            },
+                    title: {text: adxJSON['ADXindTitle']},
+                    subtitle: { useHTML: true,
+                                text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                },
+                    xAxis: {    categories: adxJSON['timeArr'],
+                                tickInterval: 5,
+                                labels: {style: { fontSize:'8px'}}
+                            },
+                    tooltip:{valueDecimals: 2},
+                    yAxis: {title: {text: 'ADX'}},
+                    legend: {itemStyle: { fontSize: '10px'}},
+                    series: [{  name: adxJSON['Symbol'],
+                                data: adxJSON['ADXvalue']
+                            }]
+                };
+                Highcharts.chart('adx', HCharts_config[4]);
+            }
+            
+            function showGraphCCI() {
+                HCharts_config[6] = {
+                    chart: {   
+                                zoomType: 'x',
+                            },
+                    title: {text: cciJSON['CCIindTitle']},
+                    subtitle: { useHTML: true,
+                                text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                },
+                    xAxis: {    categories: cciJSON['timeArr'],
+                                tickInterval: 5,
+                                labels: {style: { fontSize:'8px'}}
+                            },
+                    tooltip:{valueDecimals: 2},
+                    yAxis: {title: {text: 'CCI'}},
+                    legend: {itemStyle: { fontSize: '10px'}},
+                    series: [{  name: cciJSON['Symbol'],
+                                data: cciJSON['CCIvalue']
+                            }]
+                };
+                Highcharts.chart('cci', HCharts_config[5]);
+            }
+            
+            function showGraphSTOCH() { 
+                HCharts_config[3] = {
+                    chart: {    
+                                zoomType: 'x',
+                            },
+                    title: {text: "Stochastic Oscillator (STOCH)"},
+                    subtitle: {
+                                useHTML: true,
+                                text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                },
+                    xAxis: {    categories: stochJSON['timeArr'],
+                                tickInterval: 5,
+                                labels: {style: { fontSize:'8px'}}
+                            },
+                    tooltip:{valueDecimals: 2},
+                    yAxis: {title: {text: 'STOCH'}},
+                    legend: {itemStyle: { fontSize: '10px'}},
+                    series: [                    
+                                {   name: stochJSON['Symbol'] + ' SlowD',
+                                    data: stochJSON['STOCHvalueD']
+                                },
+                                {   name: stochJSON['Symbol'] + ' SlowK',
+                                    data: stochJSON['STOCHvalueK']
+                                }
+                            ]
+                    };
+                Highcharts.chart('stoch', HCharts_config[6]); 
+                }
+
+            function showGraphBBANDS() {
+                HCharts_config[7] = {
+                    chart: {   
+                                zoomType: 'x',
+                            },
+                    title: { text: bbandsJSON['BBANDSindTitle']},
+                    subtitle: { useHTML: true,
+                                text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                },
+                     xAxis: {    categories: bbandsJSON['timeArr'],
+                                tickInterval: 5,
+                                labels: {style: { fontSize:'8px'}}
+                            },
+                    tooltip:{valueDecimals: 2},
+                    yAxis: {title: {text: 'BBANDS'}},
+                    legend: {itemStyle: { fontSize: '10px'}},
+                    series: [   {   name: bbandsJSON['Symbol'] + ' Real Lower Band',
+                                    data: bbandsJSON['BBANDSvalueLow']
+                                },
+                                {   name: bbandsJSON['Symbol'] + ' Real Upper Band',
+                                    data: bbandsJSON['BBANDSvalueUp']
+                                },
+                                {   name: bbandsJSON['Symbol'] + ' Real Middle Band',
+                                    data: bbandsJSON['BBANDSvalueMid']
+                                }]         
+                    };
+                Highcharts.chart('bbands', HCharts_config[7]);  
+                }
+            
+            function showGraphMACD() {
+                HCharts_config[8] = {
+                    chart: {  
+                                zoomType: 'x',
+                            },
+                    title: { text: macdJSON['MACDindTitle']},
+                    subtitle: { useHTML: true,
+                                text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                },
+                     xAxis: {    categories: macdJSON['timeArr'],
+                                tickInterval: 5,
+                                labels: {style: { fontSize:'8px'}}
+                            },
+                    tooltip:{valueDecimals: 2},
+                    yAxis: {title: {text: 'MACD'}},
+                    legend: {itemStyle: { fontSize: '10px'}},
+                    series: [   {   name: macdJSON['Symbol'] + ' MACD_Signal',
+                                    data: macdJSON['MACDvalueSig']
+                                },
+                                {   name: macdJSON['Symbol'] + ' MACD_Hist',
+                                    data: macdJSON['MACDvalueHist']
+                                },
+                                {   name: macdJSON['Symbol'] + ' MACD',
+                                    data: macdJSON['MACDvalueMacd']
+                                }]         
+                    };
+                Highcharts.chart('macd', HCharts_config[8]);  
+                
+            }
+            
+            function showHighStock() {
+                Highcharts.stockChart('highStock', 
+                    {
+                    rangeSelector: {
+                      buttons:[
+                          {
+                              type: 'week',
+                              count: 1,
+                              text: '1w'
+                          },
+                          {
+                              type: 'month',
+                              count: 1,
+                              text: '1m'
+                          },
+                          {
+                              type: 'month',
+                              count: 3,
+                              text: '3m'
+                          },
+                          {
+                              type: 'month',
+                              count: 6,
+                              text: '6m'   
+                          },
+                          {
+                              type: 'ytd',
+                              text: 'YTD'
+                          },
+                          {
+                              type: 'year',
+                              count: 1,
+                              text: '1y'
+                          },
+                          {
+                              type: 'all',
+                              text: 'All'
+                          },
+                         
+                      ],
+                         selected: 0,
+                    },
+                        chart: {height: 400,
+                                zoomType: 'x'
+                               },
+                        title: {text: highStockJSON['title']},
+                       subtitle: { useHTML: true,
+                                    text: '<a class = "subt" href="https://www.alphavantage.co" target="_blank">Source: Alpha Vantage</a>'
+                                    },
+                    tooltip: {
+                        split: false,
+                        xDataFormat: '%A, %b, %e, %Y'
+                    },
+                        yAxis: { title: {text: 'Stock Value'} },
+                        series: [{
+                                    name: highStockJSON['Symbol'] + ' Stock Price',
+                                    data: highStockJSON["Arr"],
+                                    type: 'area',
+                                    threshold: null,
+                                    tooltip: {
+                                        shared: true,
+                                        valueDecimals: 2,  
+                                             }
+                                }],
+                        responsive: {
+                                        rules: [{
+                                                    condition: {maxWidth: 768},
+                                                    chartOptions: {
+                                                                    rangeSelector: {
+                                                                          buttons:[
+                                                                              {
+                                                                                  type: 'month',
+                                                                                  count: 1,
+                                                                                  text: '1m'
+                                                                              },
+                                                                              {
+                                                                                  type: 'month',
+                                                                                  count: 3,
+                                                                                  text: '3m'
+                                                                              },
+                                                                              {
+                                                                                  type: 'month',
+                                                                                  count: 6,
+                                                                                  text: '6m'  
+
+                                                                              },
+                                                                              {
+                                                                                  type: 'year',
+                                                                                  count: 1,
+                                                                                  text: '1y'
+                                                                              },
+                                                                              {
+                                                                                  type: 'all',
+                                                                                  text: 'All'
+                                                                              },
+
+                                                                          ],
+                                                                             selected: 0,
+                                                                            inputEnabled: false
+                                                                        }
+                                                                    
+                                                                }
+                                                }]
+                                    }
+                    }); 
+            }
+            
+            function showNewsFeed() {
+                document.getElementById('newsPanel').innerHTML = '';
+                for (var i = 0; i < newsJSON["newsTitleArr"].length; i++) {
+                    document.getElementById('newsPanel').innerHTML += '<div class="panel panel-default newsPanel"><div class="panel-body"><span class="newsTitle"><a href="'+ newsJSON["newsURLArr"][i] +'" target="_blank">'+ newsJSON["newsTitleArr"][i] + '</a></span><br/><br/>'+ '<span class="newsAuthorTime">Author: ' + newsJSON["newsAuthorArr"][i] + '<br/>' + 'Date: ' + newsJSON["newsTimeArr"][i] + '</span>' + '</div></div>';
+                }
+            }
+            
+            function getAllData(company) {
+                iniAllWait();
+                refreshAllData(company);
+            }
+            
+            function refreshAllData(company) {
+                currSearchT = company.toUpperCase();
+                document.getElementById('starButton').setAttribute('disabled','disabled');
+                document.getElementById('fbButton').setAttribute('disabled','disabled');
+                document.getElementById("toStoButton").removeAttribute('disabled');
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'details'},
+                    success: function(detailsResponse, status, xhr){
+                            detailsJSON = detailsResponse;
+                            detailsFill();
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('detailsTable').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'price'},
+                    success: function(priceResponse, status, xhr){
+                            priceJSON = priceResponse;
+                            showGraphPrice();
+                            if (tagList[1][0]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('price').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                }); 
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'SMA'},
+                    success: function(smaResponse, status, xhr){
+                        smaJSON = smaResponse;
+                        showGraphSMA();
+                        if (tagList[1][1]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('sma').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'EMA'},
+                    success: function(emaResponse, status, xhr){
+                        emaJSON = emaResponse;
+                        showGraphEMA();
+                        if (tagList[1][2]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('ema').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'RSI'},
+                    success: function(rsiResponse, status, xhr){
+                        rsiJSON = rsiResponse;
+                        showGraphRSI();
+                        if (tagList[1][3]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('rsi').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'ADX'},
+                    success: function(adxResponse, status, xhr){
+                        adxJSON = adxResponse;
+                        showGraphADX();
+                        if (tagList[1][4]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('adx').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'CCI'},
+                    success: function(cciResponse, status, xhr){
+                        cciJSON = cciResponse;
+                        showGraphCCI();
+                        if (tagList[1][5]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('cci').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'STOCH'},
+                    success: function(stochResponse, status, xhr){
+                        stochJSON = stochResponse;
+                        showGraphSTOCH();
+                        if (tagList[1][6]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('stoch').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'BBANDS'},
+                    success: function(bbandsResponse, status, xhr){
+                        bbandsJSON = bbandsResponse;
+                        showGraphBBANDS();
+                        if (tagList[1][7]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('bbands').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'MACD'},
+                    success: function(macdResponse, status, xhr){
+                        macdJSON = macdResponse;
+                        showGraphMACD();
+                        if (tagList[1][8]==1) {
+                                document.getElementById('fbButton').removeAttribute('disabled');
+                            }
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('macd').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'highStock'},
+                    success: function(highStockResponse, status, xhr){
+                        highStockJSON = highStockResponse;
+                        showHighStock();
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('highStock').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+
+                $.ajax({
+                    async : true,
+                    url : '/',
+                    type : 'GET',
+                    dataType : 'JSON', 
+                    data : {'symbol': company, 'todo':'NEWS'},
+                    success: function(newsResponse, status, xhr){
+                        newsJSON = newsResponse;
+                        showNewsFeed();
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {      
+                        document.getElementById('newsPanel').innerHTML = '<div class="alert alert-danger" role="alert">Error! Failed to get current stock data.</div>';
+                    }
+                });
+                }
+            
+            function clearSearch() {
+                document.getElementById('searchForm').reset();
+                document.getElementById('toStoButton').setAttribute('disabled','disabled');
+                iniAllWait();
+                
+            }
+            
+             window.fbAsyncInit = function() {
+                            FB.init({
+                              appId            : '1747746115297526',
+                              autoLogAppEvents : true,
+                              xfbml            : true,
+                              version          : 'v2.11'
+                            });
+                        };
+                      (function(d, s, id){
+                         var js, fjs = d.getElementsByTagName(s)[0];
+                         if (d.getElementById(id)) {return;}
+                         js = d.createElement(s); js.id = id;
+                         js.src = "https://connect.facebook.net/en_US/sdk.js";
+//                         fjs.parentNode.insertBefore(js, fjs);
+                       }(document, 'script', 'facebook-jssdk'));
+            
+            function fbFeed() {   
+                    for (var temp=0; temp<9; temp++) {
+                        if (tagList[1][temp] == 1) {
+                            break;
+                        }
+                    }
+                    var data = {
+                      options: JSON.stringify(HCharts_config[temp]),
+                      filename: 'chart'+tagList[0][temp],
+                      type: 'image/jpg',
+                      async: false
+                    };
+                    var exportUrl = 'http://export.highcharts.com/';
+                    var url;
+                    $.ajax({
+                      url: exportUrl,
+                      data: data,
+                      async: false,
+                      type: 'POST',
+                      success: function(data) {
+                        url = exportUrl + data;
+                            FB.ui({
+                                app_id: '1747746115297526', 
+                                method: 'feed',
+                                link: url,
+                                picture: url
+                                }, 
+                                (response) => {
+                                if (response && !response.error_message) {
+                                    window.alert('Posted successfully!');
+                                } else {
+                                    window.alert('Not posted!')
+                                }
+                            });
+                      },
+                      error: function(xhr, status, error) {
+                      }
+                    }); 
+            }
+
+        </script>
+         
+    </div>
+    </body>
